@@ -1,10 +1,11 @@
 # Server/System imports.
 
-from flask import Flask, Response
+from flask import Flask, Response, render_template
 import threading as th
 import time
 import os
 import io
+import webbrowser as wb
 
 #Imports for file processing.
 import soundfile as sf
@@ -12,13 +13,20 @@ import random as rnd
 import math
 
 # Init Flask app.
-app = Flask(__name__)
+app = Flask(__name__, static_url_path="/static")
 
 # Init all variables
 
-#audioFiles = ["1.wav", "2.wav", "4.wav", "5.wav"] #TODO make this dynamic
 audioFiles = os.listdir('playlist/')
 audioFiles = [file for file in audioFiles if '.wav' in file] #Filters audioFiles specifically for .wav files.
+
+if len(audioFiles) == 0:
+    print("No audio files found / invalid filetypes (REQUIRED: .wav)")
+    print("if playlist/ directory doesn't exist, this program cannot run.")
+    print("This program will now terminate.")
+    input(">")
+    exit()
+
 rnd.shuffle(audioFiles) #Shuffles playlist automatically.
 
 globalStart = 0
@@ -71,7 +79,7 @@ def cutWAV(filename, startTime):
 ## Main page
 @app.route('/')
 def index():
-    return "Welcome to the offline radio. This is the multifile startpoint test."
+    return render_template("index.html")
 
 @app.route('/stream')
 def stream():
@@ -116,7 +124,7 @@ def stream():
 def kill():
     exit() #Acts as a killswitch if the application doesn't close.
 
-if __name__ == '__main__':
-    app.run(debug=True)
+wb.open("http://127.0.0.1:5000") # Points users to main webpage once program starts.
 
-## This code runs correctly. Do not edit, instead make a new project file.
+if __name__ == '__main__':
+    app.run(debug=False)
