@@ -1,49 +1,44 @@
 <!DOCTYPE html>
-<html lang="en">
 
+<html>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Local Radio</title>
+        <title>Local Radio v2</title>
         <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     </head>
 
     <body>
 
         <div class="bar"></div>
-
         <div class="background">
             <div class="overlay"></div>
         </div>
 
+
         <div class="container">
             <div class="pillar">
-                <h1>Hello!</h1>
+                <h1> Hello! </h1>
+                <p> Welcome to the offline radio station! </p>
+                
+                <div class="dynamic-container">
+                    Station: <span id="station"></span><br>
+                    Currently Playing: <span id="song"></span>
+                </div>
+                <br>
+
+                <div class="button-container">
+                    <div id="stations"></div>
+                </div>
+
                 <div id="audioContainer"></div>
 
-                <p>
-                    <a>It's much better to listen to this on a software such as VLC.</a> <br>
-                    <a onclick="expandGuide()" style="color:slategrey"> How? </a>
-                </p>
-
-                <p id="guide"></p>
             </div>
         </div>
 
         <div class="bar"></div>
-    
+
     </body>
-
-
-
 </html>
 
-<script src="{{ url_for('static', filename='audiohandling.js') }}""></script>
-
-<script>
-    function expandGuide() {
-        const newContent = "Open VLC or an equivilant media player and 'open network stream' and input this link: http://127.0.0.1:5000/stream"
-        const text = document.getElementById("guide")
-        text.textContent = newContent;
-    }
-</script>
+<script src="{{ url_for('static', filename='script.js') }}"></script>
